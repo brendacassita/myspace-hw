@@ -33,7 +33,7 @@ const AuthProvider = ({children})=>{
         try{
             // no token needed
             let res = await axios.post('/api/auth',user)
-            //res.data.data is the user
+            // res.data.data is the user
             // behind the scenes
             // there is also a token being sent back here, that
             // devise-axios is keeping track of

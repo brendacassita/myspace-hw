@@ -9,6 +9,7 @@ import NoMatch from './components/shared/NoMatch';
 import HomeClass from './components/shared/HomeClass';
 import FetchUser from './components/shared/FetchUser';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import MyFriends from './components/shared/MyFriends';
 
 //Fetch User: going to see if the user is logged in(valid user?)
 //before we render our routes, it's going to check for user.
@@ -34,6 +35,7 @@ function App() {
                 {/* protected in routes inside of here you need to logged in*/}
                 {/* else you go to login page*/}
             <Route element={<ProtectedRoute />}>
+            <Route path='/my_friends' element={<MyFriends />}/>
               <Route path='/home' element={<HomeClass yo={'yoyo'} />}/>
             </Route>  
             <Route path='*' element={<NoMatch />}/>
