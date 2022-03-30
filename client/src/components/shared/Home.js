@@ -2,6 +2,8 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import { Card, Button} from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 
 // this page should show unliked cats for a logged in user
 const Home = () => {
@@ -27,15 +29,16 @@ const Home = () => {
     try {
       let res = await axios.get("/api/friends");
       setFriends(res.data);
+      console.log(res.data)
     } catch (err) {
       setError(err);
     }
   };
 
-  // gets a random cat from our cat state
+  // gets a random friend from our friends state
   const sample = () => {
     if (friends.length) {
-      // come up with whole number 0 - cats.length -1
+      // come up with whole number 0 - friends.length -1
       const index = Math.floor(Math.random() * friends.length);
       return friends[index];
     }
@@ -47,9 +50,9 @@ const Home = () => {
     setFriends(friends.filter((friend) => friend.id !== id));
   };
 
-  // will interact with DB (update method in cats controller)
+  // will interact with DB (update method in friends controller)
   const upVote = async (id) => {
-    // this call add id to the liked_cats in user model
+    // this call add id to the liked_friendsin user model
     let res = await axios.put(`/api/friends/${id}`);
     // update UI
     removeFriendFromUI(id);
@@ -58,45 +61,68 @@ const Home = () => {
   if (error) return <p>{JSON.stringify(error)}</p>;
 
   const friend = sample();
+  //grab the auth state - if auth.user, then get friends
   if(!auth.user){
     return (
       <>
         <p>message: { message}</p>
-        <p>you need to log in to see friends</p>
+        <p>please login to see friends!</p>
       </>
     )
   }
   if (friend) {
     return (
       <>
+      <Link to="/my_friends">
+      <Button variant="primary" size="sm" >My Friends</Button>
+      </Link>
          <p>message: { message}</p>
         <br />
         <h1>Myspace</h1>
-        <br />
+        <Container>
+            <Row>
+              <Col md={3}>
+                <Card 
+                  bg="light"
+                  className="mb-3">
+                <Image 
+                  src={friend.avatar} 
+                  className="card-img-top"
+                  fluid
+                  />
+                  <Card.Body>
+                    <Card.Title>{friend.name}</Card.Title>
+                    <Card.Text>
+                      <p>Age: {friend.age}</p>
+                      <p>Location: {friend.location}</p>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+        </Container>
         <div key={friend.id}>
-          <img src={friend.avatar} />
           <section>
-            <h3>{friend.name}</h3>
+            
             
           </section>
           <section>
-            <button onClick={() => removeFriendFromUI(friend.id)}>thumbs down</button>
-            <button onClick={() => upVote(friend.id)}>thumbs up</button>
+          <Button variant="primary" size="sm" onClick={() => upVote(friend.id)}>thumbs up</Button>{''} 
+            <Button variant="primary" size="sm" onClick={() => removeFriendFromUI(friend.id)}>thumbs down</Button>
+            
           </section>
         </div>
-        <Link to="/my_friends">
-          <button>My Friends</button>
-        </Link>
+       
       </>
     );
   } else {
     return (
-      <>
-        <h1>No More Friends</h1>
-        <Link to="/my_friends">
-          <button>My Friends</button>
+    <>
+<h1>Sorry, no More Friends!</h1>;
+       <Link to="my_friends">
+          <Button variant="dark">My Friends</Button>
         </Link>
-      </>
+        </>
     );
   }
 };

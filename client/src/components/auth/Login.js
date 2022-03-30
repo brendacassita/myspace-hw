@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { AuthContext } from "../../providers/AuthProvider"
 import Button from "react-bootstrap/esm/Button"
 import { Card } from "react-bootstrap"
+import { Link } from "react-router-dom"
 // import Card from "../shared/./Card"
 
 
@@ -24,7 +25,8 @@ const Login = ()=>{
     return (
         <div>
             <Card>
-            <h1>Login</h1>
+            <h1>Myspace</h1>
+            <p>Welcome existing users! Login to get started.</p>
             <form onSubmit={handleSubmit}>
                 <p>Email: </p>
                 <input value={email} onChange={(e)=> setEmail(e.target.value)}/>
@@ -32,6 +34,7 @@ const Login = ()=>{
                 <br/>
                 <p>Password: </p>
                 <input value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                <p>New user? <Link className="Nav-link" to="/register">Register</Link>here.</p>
                 <Button variant="primary" size="sm" onClick={handleSubmit}>Login</Button>
             </form>
             </Card>

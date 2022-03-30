@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Badge from "react-bootstrap/esm/Badge";
 import Button from "react-bootstrap/esm/Button";
+import Nav from 'react-bootstrap/Nav';
 
 const Navbar = () => {
   const auth = useContext(AuthContext);

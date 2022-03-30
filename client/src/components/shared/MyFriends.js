@@ -1,31 +1,30 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
+import axios from 'axios'
+import {useState, useEffect } from 'react'
 
-const MyFriends= () => {
-  const [friends, setFriends] = useState([]);
-  useEffect(() => {
-    getFriends();
-  }, []);
 
-  const getFriends = async () => {
-    //TODO: error handling
-    let res = await axios.get("/api/my_friends");
-    setFriends(res.data);
-  };
+const MyFriends = () => {
+  const [friends, setFriends] = useState([])
+  useEffect(()=>{
+    getFriends()
+  }, [])
 
-  return (
+  const getFriends = async()=> {
+    let res = await axios.get('/api/my_friends')
+    setFriends(res.data)
+  }; //TODO: error handling 
+
+  return(
     <>
-     <h1>My Friends</h1>
       {friends.map((friend) => {
-        return (
-          <div key={friend.id}>
-            <img src={friend.avatar} />
-            <h2>{friend.name}</h2>
-            <p>{friend.id}</p>
-          </div>
-        );
-      })}
+          return(
+            <div key={friend.id}>
+              <img src={friend.avatar} />
+              <h2>{friend.name}</h2>
+              <p>{friend.id}</p>
+            </div>
+          );
+        })}
     </>
   );
 };
-export default MyFriends
+export default MyFriends; 
